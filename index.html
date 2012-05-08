@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <link href="assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">resolv.it</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="#top">Home</a></li>
+              <li><a href="#why">Why</a></li>
+              <li><a href="#how">How</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container">
+
+      <div class="hero-unit">
+        <h1>resolv.it</h1>
+        <p>Use your ip address as a FQDN. Need to use a FQDN in your environment which is accessible via remote?
+          Don't want to create <b>hosts</b> entries?</p>
+        <p><a class="btn btn-primary btn-large" data-toggle="modal" href="#hostname" >Create a hostname for a specifc ip &raquo;</a></p>
+      </div>
+
+
+  <a name="why"><h2>Why?</h2></a>
+      <p>
+        If you distribute virtual machines you often have problems like how to get an ip address (depend on DHCP) or how to
+        provide the acquired IP-Address to your user. But for some services you not only need an ip address but also a
+        resolvable and working hostname. As you don't have control about the used DNS infrastructure such a thing can get
+        complicated.
+      </p>
+      <p>
+        Our proposed solution to this problem is to generate a resolvable hostname based on your primary ip address.
+        This allows you to use the hostname in basically every environment without the need to either edit /etc/hosts, use MDNS
+        or create additional DNS entries in your zone file.
+      </p>
+      <a name="how"><h2>How</h2></a>
+      <p>
+        <ol>
+          <li>Convert your ip address into hex. Example: <code>192.168.42.23 -> c0a82a17</code></li>
+          <li>Use <code>c0a82a1.hostingstack.com</code> as your hostname</li>
+
+        </ol>
+      </p>
+
+    </div>
+</div>
+
+<div class="modal fade" id="hostname">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>Create a hostname for an IP address</h3>
+  </div>
+
+  <div class="modal-body">
+    <p>Just enter your ip address and we will automatically convert it into an hostname</p>
+    <hr />
+    <form class="form-horizontal">
+    <fieldset>
+          <div class="control-group">
+
+            <label class="control-label" for="ip">IP Address</label>
+            <div class="controls">
+              <input class="input-xlarge focused" id="ip" type="text" placeholder="Enter IP…">
+            </div>
+          </div>
+          <p class="result"></p>
+    </fieldset>
+    </form>
+  </div>
+</div>
+<script src="assets/vendor/jquery.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  </body>
+</html>
