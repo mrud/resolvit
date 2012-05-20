@@ -1,0 +1,62 @@
+#!/usr/bin/python
+ttl = '86400'
+zone = 'hostingstack.net'
+nameservers = ['ns1.namespace.at', 'ns2.namespace.at']
+zonemaster = 'dns.namespace.at'
+_Debug = False
+
+
+import sys, hashlib, time, struct, base64
+import syslog
+syslog.openlog('resolvit-pipe', syslog.LOG_PID, syslog.LOG_DAEMON)
+
+
+def send(m):
+    msg = "\t".join(m) + "\n"
+    if _Debug: syslog.syslog(msg)
+    sys.stdout.write(msg)
+    sys.stdout.flush()
+
+
+def resolve(data):
+    (qname, qclass, qtype, id, ip) = data
+    qn = qname
+    if qname.endswith('.'): qn = qname[:-1]
+    if qn.endswith('.'+zone) and (qtype in ['A', 'ANY']):
+        subzone = qn[0:-len(zone)-1].split('.')[-1]
+        if len(subzone) != 8:
+            return send(["END"])
+        a = int(subzone[0:2], 16)
+        b = int(subzone[2:4], 16)
+        c = int(subzone[4:6], 16)
+        d = int(subzone[6:8], 16)
+        send(["DATA", qname, qclass, 'A', '14400', '-1', '%s.%s.%s.%s' % (a,b,c,d)])
+    if qn == zone and (qtype in ['SOA', 'ANY']):
+        send(["DATA", qname, qclass, 'SOA', '3600', '-1', '%s. %s. 1' % (nameservers[0], zonemaster)])
+    if qn == zone and (qtype in ['NS', 'ANY']):
+        for nameserver in nameservers:
+            send(["DATA", qname, qclass, 'NS', '3600', '-1', nameserver+'.'])
+    send(["END"])
+
+
+while True:
+    l = sys.stdin.readline()
+    l = l[:-1]
+    if _Debug: syslog.syslog(repr(l))
+    data = l.split("\t")
+    msgtype = data[0].upper()
+    if msgtype == "HELO":
+        send(["OK", "resolvit IP-DNS Backend firing up"])
+    elif msgtype == 'QUIT':
+        sys.exit(0)
+    elif msgtype == 'Q':
+        try:
+            resolve(data[1:])
+        except Exception as e:
+            send(["LOG", "FAILED with exception: " + str(e)])
+            send(["FAIL"])
+    elif msgtype == 'AXFR':
+        send(["END"])
+    else:
+        send(["LOG", "Unknown message from PowerDNS"])
+        send(["FAIL"])
