@@ -34,12 +34,18 @@
         <h1>resolv.it</h1>
         <p>Use your ip address as a FQDN. Need to use a FQDN in your environment which is accessible via remote?
           Don't want to create <b>hosts</b> entries?</p>
-        <p><a class="btn btn-primary btn-large" data-toggle="modal" href="#hostname" >Create a hostname for a specifc ip &raquo;</a></p>
+        <p><a class="btn btn-primary btn-large" data-toggle="modal"
+              href="#hostname" >Create a hostname for a specifc ip
+       &raquo;</a></p>
+          <div class="result-text hide">
+          <h4>Your unique host-name is: <span
+          class="result"></span>.hostingstack.net</h4>
+          </div>
       </div>
 
 
   <a name="why"><h2>Why?</h2></a>
-      <p>
+  <p>
         If you distribute virtual machines you often have problems like how to get an ip address (depend on DHCP) or how to
         provide the acquired IP-Address to your user. But for some services you not only need an ip address but also a
         resolvable and working hostname. As you don't have control about the used DNS infrastructure such a thing can get
@@ -50,11 +56,13 @@
         This allows you to use the hostname in basically every environment without the need to either edit /etc/hosts, use MDNS
         or create additional DNS entries in your zone file.
       </p>
+
+
       <a name="how"><h2>How</h2></a>
       <p>
         <ol>
           <li>Convert your ip address into hex. Example: <code>192.168.42.23 -> c0a82a17</code></li>
-          <li>Use <code>c0a82a1.hostingstack.com</code> as your hostname</li>
+          <li>Use <code>c0a82a17.hostingstack.net</code> as your hostname</li>
 
         </ol>
       </p>
@@ -80,13 +88,18 @@
               <input class="input-xlarge focused" id="ip" type="text" placeholder="Enter IP…">
             </div>
           </div>
-          <p class="result"></p>
+          <hr />
+          <div class="result-text hide">
+          Your unique host-name is: <h6><span
+          class="result"></span>.hostingstack.net</h6>
+          </div>
     </fieldset>
     </form>
   </div>
 </div>
 <script src="assets/vendor/jquery.min.js"></script>
 <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/data.js"></script>
 
-  </body>
+</body>
 </html>
