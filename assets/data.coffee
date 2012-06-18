@@ -21,17 +21,20 @@ IPv4 =
         hex
 
 $("#ip").keyup (event) ->
-    addr = event.target.value.replace /\n*|\r*|\s*|\t*/, ''
-    console.log IPv4.is_valid addr
+    addr = event.target.value.replace ' ', ''
     if not IPv4.is_valid(addr)
       $(".result").html ""
-      $("result-text").hide()
+      $(".result-text").hide()
     else
       $(".result").html IPv4.convert(addr).join ""
       $(".result-text").show()
 
     event.preventDefault()
 
+
 $("form").submit  (event) ->
   event.preventDefault()
   $(".modal").modal "hide"
+
+$(".modal").on 'shown', ()  ->
+    $(".modal input").focus()

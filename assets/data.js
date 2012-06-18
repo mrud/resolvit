@@ -33,11 +33,10 @@
 
   $("#ip").keyup(function(event) {
     var addr;
-    addr = event.target.value.replace(/\n*|\r*|\s*|\t*/, '');
-    console.log(IPv4.is_valid(addr));
+    addr = event.target.value.replace(' ', '');
     if (!IPv4.is_valid(addr)) {
       $(".result").html("");
-      $("result-text").hide();
+      $(".result-text").hide();
     } else {
       $(".result").html(IPv4.convert(addr).join(""));
       $(".result-text").show();
@@ -48,6 +47,10 @@
   $("form").submit(function(event) {
     event.preventDefault();
     return $(".modal").modal("hide");
+  });
+
+  $(".modal").on('shown', function() {
+    return $(".modal input").focus();
   });
 
 }).call(this);
