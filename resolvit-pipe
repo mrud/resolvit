@@ -6,7 +6,7 @@ zonemaster = 'dns.namespace.at'
 _Debug = False
 
 
-import sys, hashlib, time, struct, base64
+import sys
 import syslog
 syslog.openlog('resolvit-pipe', syslog.LOG_PID, syslog.LOG_DAEMON)
 
