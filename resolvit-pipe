@@ -32,10 +32,10 @@ def resolve(data):
         d = int(subzone[6:8], 16)
         send(["DATA", qname, qclass, 'A', '14400', '-1', '%s.%s.%s.%s' % (a,b,c,d)])
     if qn == zone and (qtype in ['SOA', 'ANY']):
-        send(["DATA", zone+'.', qclass, 'SOA', '3600', '-1', '%s. %s. 1 10800 3600 604800 14400' % (nameservers[0], zonemaster)])
+        send(["DATA", zone, qclass, 'SOA', '3600', '-1', '%s. %s. 1 10800 3600 604800 14400' % (nameservers[0], zonemaster)])
     if qn == zone and (qtype in ['NS', 'ANY']):
         for nameserver in nameservers:
-            send(["DATA", zone+'.', qclass, 'NS', '3600', '-1', nameserver+'.'])
+            send(["DATA", zone, qclass, 'NS', '3600', '-1', nameserver])
     send(["END"])
 
 
